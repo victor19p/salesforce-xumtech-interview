@@ -9,6 +9,32 @@ Implementación completa de Salesforce para una compañía financiera regional, 
 
 ---
 
+## Resumen y Extras Implementados
+
+- **Extras realizados:**
+  - Emails automáticos HTML a departamentos externos (estudio de créditos).
+  - Objeto custom seguro para tarjetas de crédito con campos encriptados y audit trail.
+  - Validación avanzada de últimos 4 dígitos vía trigger y reglas de negocio.
+  - Documentación técnica completa y plan de deployment.
+  - Uso de Custom Metadata Types para configuración flexible de emails y procesos.
+
+- **Uso de Trigger Framework:**
+  - Implementación profesional con separación de lógica en handlers y services.
+  - Triggers para validaciones, alertas y automatizaciones en oportunidades.
+  - Framework basado en [Salesforce Trigger Framework](https://github.com/dschach/salesforce-trigger-framework) para escalabilidad y mantenibilidad.
+
+---
+
+## Nota sobre el Approval Process
+
+> **Limitación detectada:**  
+> Durante las pruebas, el proceso de aprobación para tarjetas >10,000 USD no se ejecutó automáticamente al crear registros de prueba. Esto puede deberse a restricciones de la org de desarrollo, configuración de usuarios, o condiciones de activación.  
+> **Acción recomendada:**  
+> Dejar el avance en 90% para ese entregable y agregar comentario en la tabla:  
+> “Configuración completa, pero no se logró ejecutar el proceso en pruebas. Requiere validación en org productiva o revisión de condiciones de activación.”
+
+---
+
 ## Entregables Implementados
 
 ### ✅ i. Configuración de Roles y Políticas de Visibilidad
@@ -314,7 +340,7 @@ sf project deploy start --source-path backup/ --target-org production
 | **ii.** Propuesta de proceso de venta para préstamos | **100%** | ✅ Sales Process completo con 6 etapas específicas, validaciones por etapa, automatización de alertas y seguimiento |
 | **iii.** Configuración requerida para el soporte de los dos tipos de producto | **100%** | ✅ Record Types diferenciados, Sales Processes específicos, campos custom, productos en Pricebook, layouts personalizados |
 | **iv.** Automatización para generar la tarea de contactar al cliente cuando la oportunidad esté en "falta información" | **100%** | ✅ Lightning Flow activado con lógica de 72 horas, asignación automática al owner, prioridad alta, validación de Record Type |
-| **v.** Proceso de aprobación para solicitud de tarjetas de más de 10,000 USD | **100%** | ✅ Approval Process completo con 42h límite, validación de últimos 4 dígitos vía trigger, email templates, bloqueo durante aprobación |
+| **v.** Proceso de aprobación para solicitud de tarjetas de más de 10,000 USD | **90%** | ✅ Configuración completa, pero no se logró ejecutar el proceso en pruebas. Requiere validación en org productiva. |
 
 ### 📈 Implementaciones Adicionales (Valor Agregado)
 
