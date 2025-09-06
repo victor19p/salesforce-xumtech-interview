@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ultimos_4_Digitos__c</fullName>
+    <description>Últimos 4 dígitos: Text (4), requerido</description>
+    <externalId>false</externalId>
+    <label>Ultimos 4 Digitos</label>
+    <length>4</length>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -301,6 +301,36 @@
         <field>Opportunity.Ultimos_4_Digitos__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Tarjeta_de_Credito__c.Banco_Emisor__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Tarjeta_de_Credito__c.CVV__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Tarjeta_de_Credito__c.Estado__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Tarjeta_de_Credito__c.Fecha_de_emisi_n__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Tarjeta_de_Credito__c.L_mite_de_cr_dito__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Tarjeta_de_Credito__c.Numero_Tarjeta__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
@@ -685,6 +715,9 @@
         <layout>StandardShippingRate-Standard Shipping Rate Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Tarjeta_de_Credito__c-Tarjeta de Credito Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Task-Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -766,6 +799,10 @@
         <recordType>Opportunity.Solicitud_de_Tarjeta_de_Credito</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Tarjeta_de_Credito__c</tab>
+        <visibility>DefaultOff</visibility>
+    </tabVisibilities>
     <userLicense>Customer Portal Manager Standard</userLicense>
     <userPermissions>
         <enabled>true</enabled>
