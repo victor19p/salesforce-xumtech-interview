@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Envía email de alerta al director de ventas sobre el timeout</description>
+        <name>Send_Timeout_Alert</name>
+        <label>Send Timeout Alert</label>
+        <locationX>752</locationX>
+        <locationY>398</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Update_Opportunity_Status</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>director@xumtech.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>🚨 URGENTE: Aprobación Vencida ({!inputHoursElapsed} horas)</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>&lt;p&gt;Estimado Director,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;🚨 ALERTA DE APROBACIÓN VENCIDA - ACCIÓN REQUERIDA&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Una solicitud de tarjeta de crédito bajo su aprobación ha excedido el plazo máximo de 42 horas.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;📋 DETALLES DE LA SOLICITUD:&lt;/p&gt;&lt;p&gt;• Cliente: Ver oportunidad en Salesforce&lt;/p&gt;&lt;p&gt;• Tiempo transcurrido: {!inputHoursElapsed} horas&lt;/p&gt;&lt;p&gt;• Fecha límite: VENCIDA&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;🔗 ENLACE DIRECTO:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://freelance-4e-dev-ed.develop.lightning.force.com/lightning/r/Opportunity/{!inputOpportunityId}/view&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Url Oportunidad&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;⚠️ ACCIONES REQUERIDAS:&lt;/p&gt;&lt;p&gt;1. Revisar la solicitud inmediatamente&lt;/p&gt;&lt;p&gt;2. Tomar decisión de aprobación/rechazo&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Para cualquier consulta, contacte al administrador del sistema.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Gracias por su pronta atención.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Sistema de Aprobaciones Xumtech&lt;/p&gt;</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Subflow que ejecuta acciones específicas cuando una aprobación de tarjeta de crédito excede las 42 horas</description>
+    <environments>Default</environments>
+    <label>Approval Timeout Actions</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Crea una tarea de seguimiento para el director de ventas</description>
+        <name>Create_Follow_Up_Task</name>
+        <label>Create Follow Up Task</label>
+        <locationX>752</locationX>
+        <locationY>614</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>La aprobacion de una tarjeta de credito ha excedido las 42 horas.</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>URGENTE: Aprobación Vencida - Revisar tarjeta de crédito</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>inputOpportunityId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>Obtiene los detalles del aprobador asignado</description>
+        <name>Get_Approver_Details</name>
+        <label>Get Approver Details</label>
+        <locationX>390</locationX>
+        <locationY>281</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Send_Timeout_Alert</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>inputWorkitemId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProcessInstanceWorkitem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Obtiene los detalles de la oportunidad y el director asignado</description>
+        <name>Get_Opportunity_Details</name>
+        <label>Get Opportunity Details</label>
+        <locationX>752</locationX>
+        <locationY>182</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Approver_Details</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>inputOpportunityId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Actualiza la oportunidad para marcar que hubo timeout en la aprobación</description>
+        <name>Update_Opportunity_Status</name>
+        <label>Update Opportunity Status</label>
+        <locationX>404</locationX>
+        <locationY>520</locationY>
+        <connector>
+            <targetReference>Create_Follow_Up_Task</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>inputOpportunityId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>ALERTA: Esta oportunidad tiene una aprobación pendiente que ha excedido las 42 horas límite. Tiempo transcurrido: {!inputHoursElapsed} horas. Se ha enviado alerta al director responsable.</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordUpdates>
+    <start>
+        <locationX>626</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_Opportunity_Details</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <description>Horas transcurridas desde el envío</description>
+        <name>inputHoursElapsed</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <description>ID de la oportunidad en aprobación</description>
+        <name>inputOpportunityId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>ID del ProcessInstanceWorkitem</description>
+        <name>inputWorkitemId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

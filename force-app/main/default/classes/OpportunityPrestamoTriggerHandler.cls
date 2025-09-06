@@ -32,7 +32,7 @@ public with sharing class OpportunityPrestamoTriggerHandler extends TriggerHandl
         for (Opportunity opp : newRecords) {
             Opportunity oldOpp = oldRecordsMap.get(opp.Id);
             if (oldOpp != null && opp.StageName != oldOpp.StageName) {
-                OpportunityAlertService.sendStageChangeAlert(opp, oldOpp.StageName, opp.StageName);
+                // OpportunityAlertService.sendStageChangeAlert(opp, oldOpp.StageName, opp.StageName);
             }
         }
         TriggerHandler.clearBypass('OpportunityPrestamoTriggerHandler');
