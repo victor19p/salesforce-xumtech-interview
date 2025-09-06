@@ -10,6 +10,11 @@ public with sharing class OpportunityValidationService {
                 validateRequiredFields(opp);
                 validateBusinessRules(opp);
             }
+
+            if(isTarjetaCredito(opp)){
+                System.debug('Validating Tarjeta de Credito Opportunity: ' + opp.Id);
+                validateLastDigits(opp, oldOpp);
+            }
         }
     }
     
@@ -20,6 +25,13 @@ public with sharing class OpportunityValidationService {
         System.debug(LoggingLevel.INFO, 'RecordType DeveloperName: ' + rtOpportunity);
 
         return rtOpportunity == 'Prestamo_Personal';
+    }
+
+    private static Boolean isTarjetaCredito(Opportunity opp) {
+        String rtOpportunity = [SELECT DeveloperName FROM RecordType WHERE Id = :opp.RecordTypeId LIMIT 1].DeveloperName;
+        System.debug(LoggingLevel.INFO, 'RecordType DeveloperName: ' + rtOpportunity);
+
+        return rtOpportunity == 'Solicitud_de_Tarjeta_de_Credito';
     }
     
     private static void validateStageTransition(Opportunity newOpp, Opportunity oldOpp) {
@@ -66,6 +78,27 @@ public with sharing class OpportunityValidationService {
     private static void validateBusinessRules(Opportunity opp) {
         if (opp.Amount != null && opp.Amount > 100000) {
             opp.Amount.addError('El monto del préstamo no puede exceder $100,000.');
+        }
+    }
+    
+    // Validación específica para tarjetas de crédito - Últimos 4 dígitos
+    private static void validateLastDigits(Opportunity newOpp, Opportunity oldOpp) {
+        if (oldOpp == null) {
+            return; // Nueva oportunidad, no validar transición
+        }
+
+        String oldStage = oldOpp.StageName;
+        String newStage = newOpp.StageName;
+
+        // Validar que los últimos 4 dígitos estén ingresados antes de marcar como "Aprobada"
+        if (newStage == 'Aprobada' && oldStage != 'Aprobada') {
+            if (String.isBlank(newOpp.Ultimos_4_Digitos__c)) {
+                newOpp.Ultimos_4_Digitos__c.addError('Los últimos 4 dígitos de la tarjeta son obligatorios antes de aprobar.');
+            } else if (newOpp.Ultimos_4_Digitos__c.length() != 4) {
+                newOpp.Ultimos_4_Digitos__c.addError('Los últimos 4 dígitos deben tener exactamente 4 caracteres.');
+            } else if (!newOpp.Ultimos_4_Digitos__c.isNumeric()) {
+                newOpp.Ultimos_4_Digitos__c.addError('Los últimos 4 dígitos deben ser solo números.');
+            }
         }
     }
 }
