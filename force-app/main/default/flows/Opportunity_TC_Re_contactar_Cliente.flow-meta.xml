@@ -26,6 +26,11 @@
     </decisions>
     <environments>Default</environments>
     <formulas>
+        <name>newDate</name>
+        <dataType>DateTime</dataType>
+        <expression>{!$Flow.CurrentDateTime} + 3</expression>
+    </formulas>
+    <formulas>
         <name>Subject</name>
         <dataType>String</dataType>
         <expression>&apos;Re-Contactar Cliente&apos; + {!$Record.Account.Name}</expression>
@@ -59,7 +64,13 @@
         <inputAssignments>
             <field>ActivityDate</field>
             <value>
-                <elementReference>$Flow.CurrentDate</elementReference>
+                <elementReference>newDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
