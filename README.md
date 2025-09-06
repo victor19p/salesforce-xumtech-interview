@@ -278,58 +278,6 @@ Utiliza el framework de triggers para manejo eficiente:
 - Versionado API 64.0
 - Compatible con Salesforce CLI
 
-### Plan de Deployment
-
-#### Pre-requisitos
-```bash
-# Verificar conexión a org destino
-sf org display --target-org production
-
-# Validar calidad del código
-sf scanner run --target "force-app" --format table
-```
-
-#### Deployment Steps
-
-**1. Deployment de Metadata Base**
-```bash
-# Deploy configuraciones base (roles, perfiles, objetos)
-sf project deploy start --manifest manifest/package.xml --target-org production --dry-run
-sf project deploy start --manifest manifest/package.xml --target-org production
-```
-
-**2. Configuración Post-Deployment**
-```bash
-# Activar procesos y flows
-# Configurar usuarios y asignación de roles
-# Validar email templates y alertas
-```
-
-**3. Validación de Funcionalidad**
-```bash
-# Test de triggers y validaciones
-# Test de approval processes
-# Test de flows y automatizaciones
-# Verificación de permisos y seguridad
-```
-
-**4. Rollback Plan**
-```bash
-# En caso de fallas críticas
-sf project deploy start --source-path backup/ --target-org production
-```
-
-#### Deployment Checklist
-- [ ] Backup de org destino realizado
-- [ ] Tests unitarios ejecutados (>75% coverage)
-- [ ] Validation deployment exitoso
-- [ ] Users y roles configurados
-- [ ] Email deliverability configurado
-- [ ] Custom metadata types poblados
-- [ ] Flows activados y testeados
-- [ ] Approval processes activados
-- [ ] Security review completado
-
 ---
 
 ## 📊 Tabla de Cumplimiento de Entregables
@@ -358,17 +306,6 @@ sf project deploy start --source-path backup/ --target-org production
 - Los perfiles con "View All" **override automáticamente** las sharing rules
 - Director de Riesgo y roles de ventas tienen permisos específicos configurados
 
-**Sharing Rules Opcionales (Para configuración alternativa):**
-
-*Si se modificaran los perfiles para quitar "View All":*
-
-*Account Sharing Rules:*
-- **Director_Riesgo_Clientes_Alto_Valor:** Acceso a clientes con ingresos >$50K para análisis de riesgo
-- **Directores_Ventas_Team_Accounts:** Acceso supervisorio a cuentas del equipo
-
-*Opportunity Sharing Rules:*
-- **Director_Ventas_Supervision_Equipo:** Acceso a oportunidades del equipo (si se requiere supervisión)
-- **Director_Riesgo_Prestamos_Alto_Monto:** Acceso a préstamos >$25K para evaluación
 
 **Nota Técnica:** 
 La implementación actual prioriza perfiles personalizados sobre sharing rules para simplicidad y control directo de permisos según los requisitos específicos del documento.
@@ -379,7 +316,6 @@ La implementación actual prioriza perfiles personalizados sobre sharing rules p
 
 1. **Shield Platform Encryption** para mayor seguridad
 2. **Integration** con sistemas externos de evaluación crediticia
-3. **Mobile App** para agentes de campo
 4. **Analytics** y reportes avanzados
 5. **Einstein AI** para scoring crediticio
 
