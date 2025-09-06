@@ -231,6 +231,20 @@
                 <identifier>RecordFecha_de_formalizacion_desembolso__cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>conditionalFormatRuleset</name>
+                    <value>Doc_recibida</value>
+                </fieldInstanceProperties>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Documentacion_Recibida__c</fieldItem>
+                <identifier>RecordDocumentacion_Recibida__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b4cbe970-e252-413a-aa03-38f77119a990</name>
         <type>Facet</type>
     </flexiPageRegions>

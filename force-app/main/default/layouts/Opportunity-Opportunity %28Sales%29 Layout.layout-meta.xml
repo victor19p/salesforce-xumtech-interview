@@ -66,6 +66,10 @@
                 <behavior>Edit</behavior>
                 <field>Fecha_de_rechazada__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Documentacion_Recibida__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
